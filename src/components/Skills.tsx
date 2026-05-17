@@ -1,10 +1,10 @@
-import {SkillCategory} from '@/types';
-import {StaggerContainer, StaggerItem} from './StaggerContainer';
-import FadeIn from './FadeIn';
-import SectionWrapper from './SectionWrapper';
-import SectionHeader from './SectionHeader';
+'use client';
 
-// Replace the header div in each section with:
+import {SkillCategory} from '@/types';
+import FadeIn from './FadeIn';
+import SectionHeader from './SectionHeader';
+import SectionWrapper from './SectionWrapper';
+import {StaggerContainer, StaggerItem} from './StaggerContainer';
 
 const skillCategories: SkillCategory[] = [
   {
@@ -29,11 +29,11 @@ const skillCategories: SkillCategory[] = [
   },
 ];
 
-// Sub-component: renders one category card
+const allSkills = [...new Set(skillCategories.flatMap((c) => c.skills))];
+
 function SkillCard({category, icon, skills}: SkillCategory) {
   return (
-    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 flex flex-col gap-4">
-      {/* Card Header */}
+    <div className="surface-transition rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900/50">
       <div className="flex items-center gap-3">
         <span className="text-2xl" aria-hidden>
           {icon}
@@ -42,13 +42,38 @@ function SkillCard({category, icon, skills}: SkillCategory) {
           {category}
         </h3>
       </div>
-
-      {/* Skill Badges */}
-      <div className="flex flex-wrap gap-2">
-        {skills.map((skill: string) => (
+      <div className="mt-4 flex flex-wrap gap-2">
+        {skills.map((skill) => (
           <span
             key={skill}
-            className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium px-3 py-1 rounded-lg"
+            className="rounded-lg bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700 transition-colors hover:bg-blue-50 hover:text-blue-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-blue-950/50 dark:hover:text-blue-300"
+          >
+            {skill}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function TechMarquee() {
+  const items = [...allSkills, ...allSkills];
+
+  return (
+    <div className="relative mt-12 overflow-hidden">
+      <div
+        className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-white to-transparent dark:from-gray-950"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-white to-transparent dark:from-gray-950"
+        aria-hidden
+      />
+      <div className="flex animate-marquee gap-3 whitespace-nowrap">
+        {items.map((skill, i) => (
+          <span
+            key={`${skill}-${i}`}
+            className="rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
           >
             {skill}
           </span>
@@ -60,22 +85,23 @@ function SkillCard({category, icon, skills}: SkillCategory) {
 
 export default function Skills() {
   return (
-    <SectionWrapper id="skills" className="bg-white dark:bg-gray-950">
-      {/* Section Header */}
+    <SectionWrapper id="skills" className="section-divider bg-white dark:bg-gray-950">
       <FadeIn direction="up">
         <SectionHeader
-          title="Skills"
-          subtitle="Technologies I work with day to day"
+          title="Tech Stack"
+          subtitle="Tools I use to ship reliable, maintainable products"
         />
       </FadeIn>
 
-      <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <StaggerContainer className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         {skillCategories.map((cat) => (
           <StaggerItem key={cat.category}>
             <SkillCard {...cat} />
           </StaggerItem>
         ))}
       </StaggerContainer>
+
+      <TechMarquee />
     </SectionWrapper>
   );
 }

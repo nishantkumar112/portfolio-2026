@@ -16,17 +16,33 @@ const geistMono = Geist_Mono({
   display: 'swap',
 });
 
+const siteUrl = 'https://nishantatras.dev';
+
 export const metadata: Metadata = {
-  title: 'Nishant Atras | Full-Stack Developer',
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: 'Nishant Atras | Full-Stack Developer',
+    template: '%s | Nishant Atras',
+  },
   description:
-    'Portfolio of Nishant Atras — full-stack developer specialising in React, Next.js, and TypeScript.',
-  keywords: ['developer', 'portfolio', 'React', 'Next.js', 'TypeScript'],
-  authors: [{name: 'Nishant Atras'}],
+    'Full-stack developer building production-ready web apps with React, Next.js, and TypeScript. Available for freelance and full-time work.',
+  keywords: [
+    'full-stack developer',
+    'React developer',
+    'Next.js',
+    'TypeScript',
+    'freelance developer',
+    'portfolio',
+  ],
+  authors: [{name: 'Nishant Atras', url: siteUrl}],
+  creator: 'Nishant Atras',
+  robots: {index: true, follow: true},
+  alternates: {canonical: siteUrl},
   openGraph: {
     title: 'Nishant Atras | Full-Stack Developer',
     description:
       'Full-stack developer specialising in React, Next.js, and TypeScript.',
-    url: 'https://nishantatras.dev',
+    url: siteUrl,
     siteName: 'Nishant Atras Portfolio',
     images: [
       {
@@ -47,6 +63,19 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Nishant Atras',
+  url: siteUrl,
+  jobTitle: 'Full-Stack Developer',
+  sameAs: [
+    'https://github.com/nishantkumar112',
+    'https://www.linkedin.com/in/nishantatras/',
+  ],
+  knowsAbout: ['React', 'Next.js', 'TypeScript', 'Node.js'],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -58,7 +87,11 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} scroll-smooth`}
     >
-      <body className="min-h-screen bg-white text-gray-900 antialiased dark:bg-gray-950 dark:text-white">
+      <body className="min-h-screen bg-white font-sans text-gray-900 antialiased dark:bg-gray-950 dark:text-white">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}
+        />
         <PageTransition>
           <ThemeProvider>{children}</ThemeProvider>
         </PageTransition>

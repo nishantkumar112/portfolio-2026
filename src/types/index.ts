@@ -1,16 +1,44 @@
 export interface Project {
+  slug: string;
   title: string;
   description: string;
   techStack: string[];
   liveUrl?: string;
   githubUrl?: string;
-
-  // Add these
-  outcome?: string; // the "so what" — metric, users, impact
-  role?: string; // Solo, Frontend Lead, Full-Stack, etc.
-  highlight?: string; // one technically interesting thing you solved
+  outcome?: string;
+  role?: string;
+  highlight?: string;
   status?: 'live' | 'in-progress' | 'archived';
-  imageUrl?: string; // screenshot or demo GIF
+  imageUrl?: string;
+  caseStudy?: {
+    problem: string;
+    solution: string;
+    results: string[];
+  };
+}
+
+export interface ExperienceItem {
+  period: string;
+  role: string;
+  company: string;
+  description: string;
+  highlights: string[];
+}
+
+export interface Testimonial {
+  quote: string;
+  name: string;
+  role: string;
+  company: string;
+}
+
+export interface BlogPost {
+  slug: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  readTime: string;
+  status: 'draft' | 'published';
 }
 
 // New
@@ -38,8 +66,9 @@ export interface SkillCategory {
 export interface ContactFormData {
   name: string;
   email: string;
+  projectType: string;
   message: string;
-  _gotcha?: string; // honeypot field
+  _gotcha?: string;
 }
 
 export interface FormStatus {
