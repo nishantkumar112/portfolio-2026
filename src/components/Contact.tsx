@@ -3,13 +3,22 @@
 import {useRef, useState} from 'react';
 import {ContactFormData, FormStatus} from '@/types';
 
+import CalendlyCTA from './CalendlyCTA';
 import FadeIn from './FadeIn';
 import SectionHeader from './SectionHeader';
 import SectionWrapper from './SectionWrapper';
 
+const projectTypes = [
+  'Freelance project',
+  'Full-time role',
+  'Consulting / audit',
+  'Other',
+];
+
 const emptyForm: ContactFormData = {
   name: '',
   email: '',
+  projectType: projectTypes[0],
   message: '',
 };
 
@@ -59,7 +68,9 @@ export default function Contact() {
   // Input Change
   // ─────────────────────────────────────────────
   function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
   ) {
     const {name, value} = e.target;
 
@@ -180,12 +191,11 @@ export default function Contact() {
       {/* Header */}
       <FadeIn direction="up">
         <SectionHeader
-          title="Get In Touch"
-          subtitle="Have an opportunity or just want to say hi? My inbox is open."
+          title="Start a Project"
+          subtitle="Tell me about your goals — I reply within 24 hours on business days"
         />
       </FadeIn>
 
-      {/* Success State */}
       {status.state === 'success' ? (
         <div className="flex flex-col items-center gap-4 py-16 text-center">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-3xl dark:bg-green-900">
@@ -212,10 +222,11 @@ export default function Contact() {
         </div>
       ) : (
         <FadeIn direction="up" delay={0.15}>
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
           <form
             onSubmit={handleSubmit}
             noValidate
-            className="flex flex-col gap-6 rounded-2xl border border-gray-200 bg-white p-8 dark:border-gray-700 dark:bg-gray-800"
+            className="flex flex-col gap-6 rounded-2xl border border-gray-200 bg-white p-8 lg:col-span-3 dark:border-gray-700 dark:bg-gray-800"
           >
             {/* Name */}
             <div className="flex flex-col gap-1.5">
@@ -289,6 +300,29 @@ export default function Contact() {
                   {errors.email}
                 </p>
               )}
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label
+                htmlFor="projectType"
+                className="text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                Project type
+              </label>
+              <select
+                id="projectType"
+                name="projectType"
+                value={formData.projectType}
+                onChange={handleChange}
+                disabled={isLoading}
+                className="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-700 dark:bg-gray-900 dark:text-white dark:focus:ring-blue-950"
+              >
+                {projectTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* Message */}
@@ -368,6 +402,10 @@ export default function Contact() {
               autoComplete="off"
             />
           </form>
+          <div className="lg:col-span-2">
+            <CalendlyCTA variant="card" className="h-full" />
+          </div>
+          </div>
         </FadeIn>
       )}
     </SectionWrapper>
