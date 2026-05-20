@@ -1,5 +1,7 @@
 'use client';
 
+import {ReactNode} from 'react';
+
 import {
   Code2,
   Database,
@@ -9,6 +11,8 @@ import {
   Terminal,
   GitBranch,
   Server,
+  Cloud,
+  Box,
 } from 'lucide-react';
 
 import {SkillCategory} from '@/types';
@@ -40,30 +44,33 @@ const skillCategories: SkillCategory[] = [
   },
 ];
 
-const skillIcons: Record<string, JSX.Element> = {
+const skillIcons: Record<string, ReactNode> = {
   TypeScript: <Code2 className="h-4 w-4" />,
   JavaScript: <Code2 className="h-4 w-4" />,
   Python: <Terminal className="h-4 w-4" />,
   HTML: <Globe className="h-4 w-4" />,
   CSS: <Globe className="h-4 w-4" />,
+
   React: <Layers3 className="h-4 w-4" />,
   'Next.js': <Layers3 className="h-4 w-4" />,
   'Node.js': <Server className="h-4 w-4" />,
   Express: <Server className="h-4 w-4" />,
   'Tailwind CSS': <Layers3 className="h-4 w-4" />,
+
   PostgreSQL: <Database className="h-4 w-4" />,
   MongoDB: <Database className="h-4 w-4" />,
   MySQL: <Database className="h-4 w-4" />,
   Redis: <Database className="h-4 w-4" />,
+
   Git: <GitBranch className="h-4 w-4" />,
   GitHub: <GitBranch className="h-4 w-4" />,
-  Docker: <Wrench className="h-4 w-4" />,
-  Vercel: <Globe className="h-4 w-4" />,
+  Docker: <Box className="h-4 w-4" />,
+  Vercel: <Cloud className="h-4 w-4" />,
   Linux: <Terminal className="h-4 w-4" />,
 };
 
 const allSkills = Array.from(
-  new Set(skillCategories.flatMap(({skills}) => skills)),
+  new Set(skillCategories.flatMap((category) => category.skills)),
 );
 
 function SkillCard({category, icon, skills}: SkillCategory) {
@@ -84,6 +91,7 @@ function SkillCard({category, icon, skills}: SkillCategory) {
             className="flex items-center gap-2 rounded-xl bg-gray-100 px-3 py-2 text-sm font-medium text-gray-700 transition-all duration-200 hover:-translate-y-1 hover:bg-blue-50 hover:text-blue-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-blue-950/40 dark:hover:text-blue-300"
           >
             {skillIcons[skill]}
+
             <span>{skill}</span>
           </div>
         ))}
@@ -114,6 +122,7 @@ function TechMarquee() {
             className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
           >
             {skillIcons[skill]}
+
             <span>{skill}</span>
           </div>
         ))}
@@ -131,7 +140,7 @@ export default function Skills() {
       <FadeIn direction="up">
         <SectionHeader
           title="Nishant Atras"
-          subtitle="Technologies and tools I use to build scalable applications"
+          subtitle="Technologies and tools I use to build scalable web applications"
         />
       </FadeIn>
 

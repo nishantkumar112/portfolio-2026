@@ -1,3 +1,4 @@
+import {ReactNode} from 'react';
 export interface Project {
   slug: string;
   title: string;
