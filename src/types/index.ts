@@ -59,7 +59,7 @@ export interface HeroData {
 
 export interface SkillCategory {
   category: string;
-  icon: string; // emoji icon for the category
+  icon: ReactNode;
   skills: string[];
 }
 
